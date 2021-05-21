@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Nav bar -->
+<header>
+  {% include 'navbar.html' %}
+</header>
+
+<!-- Grid -->
+<section class="container section scrollspy" id="about">
+    <div class="row valign-wrapper">
+      <div class="col s12 center">
+        <h2 class="" style="font-size: 40px;">Invia la tua candidatura compilando il form che segue</h2>
+      </div>
+    </div>
+</section>
+
+<!-- Messages -->
+{% for message in messages %}
+    {% if 'success' in message.tags %}
+        <div class="card green lighten-2 white-text">
+    {% elif 'error' in message.tags %}
+        <div class="card red lighten-2 white-text">
+    {% endif %}
+        <div class=" card-content center">
+            <h5 class="">{{ message }}</h5>
+        </div>
+    </div>
+{% endfor %}
+
+<!-- Form candidatura -->
+<div class="container" style="width:50%">
+
+  <form action="." method="POST" enctype="multipart/form-data"> {% csrf_token %}
+    {% for field in form.visible_fields %}
+      <div class="form-group">
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.help_text %}
+          <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+
+  <!-- Lavori disponibili -->
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Posizioni aperte -->
+      <ul class="collapsible" style="margin-top: 20px; border-radius: 5px; padding: 20px 20px;">
+        <li><p class="flow-text center">Posizioni aperte:</p></li>
+        <!-- Cuoco -->
+        <li>
+          <div class="container">
+            <p>
+              <label>
+                <input class="collapsible-header" name="role" value="Cuoco" type="radio" />
+                <span>Cuoco</span>
+              </label>
+            </p>
+          </div>
+          <div class="collapsible-body">
+            <!-- Cuoco -- Sede di lavoro -->
+            <ul class="collapsible" style="border: 0px; box-shadow: none;">
+              <li>Sede di lavoro:</li>
+              <li>
+                <div class="container">
+                  <p>
+                    <label>
+                      <input class="collapsible-header" name="location" value="Milano" type="radio" />
+                      <span>Milano</span>
+                    </label>
+                  </p>
+                </div>
+                <div class="collapsible-body" style="border-bottom: 0px;">
+                  <div class="input-field col s12">
+                    <select name="Cuoco-Milano" multiple>
+                      <option value="Cuoco primi">Cuoco primi</option>
+                      <option value="Cuoco secondi">Cuoco secondi</option>
+                    </select>
+                    <label>Seleziona una o più delle opzioni disponibili:</label>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="container">
+                  <p>
+                    <label>
+                      <input class="collapsible-header" name="location" value="Roma" type="radio" />
+                      <span>Roma</span></div>
+                    </label>
+                  </p>
+                <div class="collapsible-body" style="border-bottom: 0px;">
+                  <div class="input-field col s12">
+                    <select name="Cuoco-Roma" multiple>
+                      <option value="Cuoco primi">Cuoco primi</option>
+                    </select>
+                    <label>Seleziona una o più delle opzioni disponibili:</label>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="container">
+                  <p>
+                    <label>
+                      <input class="collapsible-header" name="location" value="Anyone" type="radio" />
+                      <span>Nessuna preferenza</span></div>
+                    </label>
+                  </p>
+                <div class="collapsible-body" style="border-bottom: 0px;">
+                  <div class="input-field col s12">
+                    <select name="Cuoco-Anyone" multiple>
+                      <option value="Cuoco primi">Cuoco primi</option>
+                      <option value="Cuoco secondi">Cuoco secondi</option>
+                    </select>
+                    <label>Seleziona una o più delle opzioni disponibili:</label>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <!-- Cameriere -->
+        <li>
+          <div class="container">
+            <p>
+              <label>
+                <input class="collapsible-header" name="role" value="Cameriere" type="radio" />
+                <span>Cameriere</span>
+              </label>
+            </p>
+          </div>
+          <div class="collapsible-body">
+            <!-- Cameriere -- Sede di lavoro -->
+            <ul class="collapsible" style="border: 0px; box-shadow: none;">
+              <li>Sede di lavoro:</li>
+              <li>
+                <div class="container">
+                  <p>
+                    <label>
+                      <input class="collapsible-header" name="location" value="Milano" type="radio" />
+                      <span>Milano</span>
+                    </label>
+                  </p>
+                </div>
+                <div class="collapsible-body" style="border-bottom: 0px;">
+                  <div class="input-field col s12">
+                    <select name="Cameriere-Milano" multiple>
+                      <option value="Cameriere di sala">Cameriere di sala</option>
+                      <option value="Maitre">Maitré</option>
+                    </select>
+                    <label>Seleziona una o più delle opzioni disponibili:</label>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="container">
+                  <p>
+                    <label>
+                      <input class="collapsible-header" name="location" value="Genova" type="radio" />
+                      <span>Genova</span></div>
+                    </label>
+                  </p>
+                <div class="collapsible-body" style="border-bottom: 0px;">
+                  <div class="input-field col s12">
+                    <select name="Cameriere-Genova" multiple>
+                      <option value="Cameriere di sala">Cameriere di sala</option>
+                    </select>
+                    <label>Seleziona una o più delle opzioni disponibili:</label>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="container">
+                  <p>
+                    <label>
+                      <input class="collapsible-header" name="location" value="Anyone" type="radio" />
+                      <span>Nessuna preferenza</span></div>
+                    </label>
+                  </p>
+                <div class="collapsible-body" style="border-bottom: 0px;">
+                  <div class="input-field col s12">
+                    <select name="Cameriere-Anyone" multiple>
+                      <option value="Cameriere di sala">Cameriere di sala</option>
+                      <option value="Maitre">Maitré</option>
+                    </select>
+                    <label>Seleziona una o più delle opzioni disponibili:</label>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+      </div>
+  </div>
+
+    <!-- Google reCaptcha button -->
+    <div class="row">
+      <div class="g-recaptcha" data-sitekey="6Lf7Tt0aAAAAAEyyXvHB7FH7Ro8WWv5SQlDEGR8y" data-callback='onSubmit'</div>
+    </div>
+    <!-- Submit & Reset buttons -->
+    <input class="btn white blue-text text-darken-4" type="submit" value="invio candidatura" name="invio" style="margin: 30px 0px;"/>
+    <a class="btn white blue-text text-darken-4" href="{% url 'form-view' %}" name="form-view" style="margin: 10px;">Reset</a>
+
+  </form>
+</div>
+
+{% endblock %}

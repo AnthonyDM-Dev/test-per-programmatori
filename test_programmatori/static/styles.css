@@ -1,0 +1,42 @@
+.drop-1 {
+    top: 0px !important;
+    height: auto !important;
+}
+.option-title {
+    width: 150px;
+    border-bottom: 1px solid grey;
+}
+.option-field {
+    width: 120px;
+    border-bottom: 1px solid grey;
+}
+.option-modal {
+    width: 75%;
+}
+
+/* Button colors in tab section */
+.tabs .indicator {
+    height: 6px;
+    background-color:#e57373;
+}
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background:#e57373;
+}
+/* Mobile optimization */
+@media screen and (max-width: 670px){
+    header {
+    min-height: 500px;
+    }
+/* Mobile Homepage editing */
+.section {
+    padding-top: 4vw;
+    padding-bottom: 4vw;
+}
+/* Mobile Button colors in tab section */
+.tabs .indicator {
+    height: 4px;
+    background-color:#e57373;
+}
+.tabs .tab a:focus, .tabs .tab a:focus.active {
+    background:#e57373;
+}

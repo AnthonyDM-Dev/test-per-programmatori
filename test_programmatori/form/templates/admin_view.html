@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% load extras %}
+
+{% block content %}
+
+<header>
+  {% include 'navbar.html' %}
+</header>
+
+    <!-- Search bar -->
+    <div class="container-fluid">
+        <form action="." method="GET">
+
+            <!-- Opzioni di filtraggio -->
+            <div class="container">
+              <h1 style="font-size:30px;">Filtri di ricerca</h1>
+            </div>
+            <div class="container" style="display: flex;">
+                <p class="option-title">Posizione lavorativa:</p>
+                <p class="option-field">
+                  <label>
+                    <input name="role" value="cuoco" type="radio" checked />
+                    <span>Cuoco</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="role" value="cameriere" type="radio" />
+                    <span>Cameriere</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="role" value="" type="radio" checked />
+                    <span>Nessun filtro</span>
+                  </label>
+                </p>
+            </div>
+            <div class="container" style="display: flex;">
+                <p class="option-title">Sede lavorativa:</p>
+                <p class="option-field">
+                  <label>
+                    <input name="location" value="milano" type="radio" checked />
+                    <span>Milano</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="location" value="roma" type="radio" />
+                    <span>Roma</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="location" value="genova" type="radio" />
+                    <span>Genova</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="location" value="" type="radio" checked />
+                    <span>Nessun filtro</span>
+                  </label>
+                </p>
+            </div>
+            <div class="container" style="display: flex;">
+                <p class="option-title">Titolo di studio:</p>
+                <p class="option-field">
+                  <label>
+                    <input name="study_title" value="diploma" type="radio" checked />
+                    <span>Diploma</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="study_title" value="laurea" type="radio" />
+                    <span>Laurea</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="study_title" value="" type="radio" checked />
+                    <span>Nessun filtro</span>
+                  </label>
+                </p>
+            </div>
+            <div class="container" style="display: flex;">
+                <p class="option-title">Età:</p>
+                <p class="option-field">
+                  <label>
+                    <input name="range" value="1825" type="radio" checked />
+                    <span>18-25 anni</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="range" value="2535" type="radio" />
+                    <span>25-35 anni</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="range" value="3545" type="radio" />
+                    <span>35-45 anni</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="range" value="4599" type="radio" />
+                    <span>> 45 anni</span>
+                  </label>
+                </p>
+                <p class="option-field">
+                  <label>
+                    <input name="range" value="" type="radio" checked />
+                    <span>Nessun filtro</span>
+                  </label>
+                </p>
+            </div>
+
+            <!-- Pulsante di ricerca e risultati -->
+            <div class="container">
+                <input class="btn-small indigo" type="submit" name="submit" value="Search" style="margin: 25px;"/>
+                {% if search %}
+                    {% if counting == 0 %}
+                        <p style="font-size: 30px;">Al momento non vi sono candidati in base ai filtri selezionati</p>
+                    {% else %}
+                        <p style="font-size: 30px;">N. di candidati che corrispondono ai filtri applicati: {{ counting }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Lista candidati -->
+    <div class="container" style="margin-bottom: 50px;">
+      <p style="font-size: 40px;">Candidature ricevute</p>
+      <table class="centered highlight responsive-table">
+        <thead>
+          <tr>
+              <th>Nome</th>
+              <th>Cognome</th>
+              <th>Età</th>
+              <th>Titolo di studi</th>
+              <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for profile, count in table.items %}
+              <tr style="border-top: 2px solid; border-bottom: 2px solid;">
+                <td>{{ profile.name }}</td>
+                <td>{{ profile.surname }}</td>
+                <td>{% getAge profile.date_of_birth %}</td>
+                <td>{{ profile.study_title }}</td>
+                <td><a class="waves-effect waves-light btn indigo modal-trigger" href="#{{ profile.id }}">Espandi profilo</a></td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tabella espandibile -->
+    {% for profile, count in table.items %}
+      <div id="{{ profile.id }}" class="modal" style="width: 80%;">
+        <div class="modal-content left-align">
+          <h4>Candidato: {{ profile.name }} {{ profile.surname }}</h4>
+          <p class="flow-text">Informazioni dettagliate profilo</p>
+          <div class="container-fluid">
+              <table class="centered highlight responsive-table">
+                <thead>
+                  <tr>
+                      <th>Nome</th>
+                      <th>Cognome</th>
+                      <th>Email</th>
+                      <th>Telefono</th>
+                      <th>Età</th>
+                      <th>Titolo di studi</th>
+                      <th>Posizioni a cui si è candidato</th>
+                      <th>Curriculum</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="border-top: 2px solid; border-bottom: 2px solid;">
+                    <td>{{ profile.name }}</td>
+                    <td>{{ profile.surname }}</td>
+                    <td>{{ profile.email }}</td>
+                    <td>{{ profile.phone }}</td>
+                    <td>{% getAge profile.date_of_birth %}</td>
+                    <td>{{ profile.study_title }}</td>
+                    <td>
+                        <div class="container-fluid">
+                            <table class="centered highlight responsive-table">
+                                <thead>
+                                  <tr>
+                                      <th>Ruolo</th>
+                                      <th>Mansione</th>
+                                      <th>Luogo</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {% for job in profile.job.all %}
+                                      <tr>
+                                        <td>{{ job.role }}</td>
+                                        <td>{{ job.duty }}</td>
+                                        <td>{{ job.location }}</td>
+                                      </tr>
+                                  {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td><a class="btn-small indigo" href="{{ profile.curriculum.url }}" download="{{ profile.curriculum.url }}">Scarica CV</a></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-green btn-flat">Chiudi</a>
+        </div>
+      </div>
+    {% endfor %}
+
+{% endblock %}
